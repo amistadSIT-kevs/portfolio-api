@@ -6,7 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const mongoURI = "mongodb://20255677_db_user:Y0KDM4Jyr4L9JwC7@ac-0fvmner-shard-00-00.95uusml.mongodb.net:27017,ac-0fvmner-shard-00-01.95uusml.mongodb.net:27017,ac-0fvmner-shard-00-02.95uusml.mongodb.net:27017/apptech?ssl=true&replicaSet=atlas-yqgyq6-shard-0&authSource=admin&appName=Cluster0";
+// Use the environment variable you set in Railway, or fall back to your string for local testing
+const mongoURI = process.env.MONGO_URI || "mongodb://20255677_db_user:Y0KDM4Jyr4L9JwC7@ac-0fvmner-shard-00-00.95uusml.mongodb.net:27017,ac-0fvmner-shard-00-01.95uusml.mongodb.net:27017,ac-0fvmner-shard-00-02.95uusml.mongodb.net:27017/apptech?ssl=true&replicaSet=atlas-yqgyq6-shard-0&authSource=admin&appName=Cluster0";
 
 mongoose
   .connect(mongoURI)
@@ -53,7 +54,8 @@ app.delete("/api/contact/:id", async (req, res) => {
   }
 });
 
-const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+// CRITICAL CHANGE: Listen on the port Railway provides
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
 });
